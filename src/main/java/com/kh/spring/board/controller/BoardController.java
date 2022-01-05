@@ -39,11 +39,12 @@ public class BoardController {
 							,@RequestParam(required = false, defaultValue = "1") int page
 							,@RequestParam(required = false) String option
 							,@RequestParam(required = false) String keyword
-							,@RequestParam(required = false, defaultValue = "reg_date") String sort) {
+							,@RequestParam(required = false, defaultValue = "reg_date") String sort
+							) {
 		Map<String,Object> commandMap = new LinkedHashMap<String,Object>();
 		
 		commandMap.put("isDel", 1);
-		commandMap.put("category", "info");
+		commandMap.put("category", "info"); //기본 조건
 		commandMap.put("option", option);
 		commandMap.put("keyword", keyword);
 		commandMap.put("sort", sort);
@@ -71,7 +72,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("info/modify")
-	public String infoModify(Model model, @RequestParam(value = "bdIdx") int bdIdx, HttpSession session) {
+	public String infoModify(Model model
+			, @RequestParam(value = "bdIdx") int bdIdx
+			, HttpSession session) {
 		model.addAttribute("title", "정보");
 		model.addAttribute("category", "info");
 		model.addAllAttributes(boardService.selectBoardByIdx(bdIdx));
@@ -115,7 +118,9 @@ public class BoardController {
 	}
 	
 	@GetMapping("cat/modify")
-	public String catModify(Model model, @RequestParam(value = "bdIdx") int bdIdx, HttpSession session) {
+	public String catModify(Model model
+			, @RequestParam(value = "bdIdx") int bdIdx
+			, HttpSession session) {
 		model.addAttribute("title", "고양이");
 		model.addAttribute("category", "cat");
 		model.addAllAttributes(boardService.selectBoardByIdx(bdIdx));

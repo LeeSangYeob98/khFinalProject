@@ -44,21 +44,23 @@
 				    </tr>
 				  </thead>
 				  <tbody>
-					  <!-- 반복문 -->
+					  <!-- 게시글 출력영역 -->
 					  <c:forEach var="board" items="${boardList}">
-					  <tr>
-					  	<td><input type="checkbox" name="bdIdx" id="bdIdx" class="listCheckbox" value="${board.bdIdx}"></td>
-				  		<td>${board.bdIdx}</td>
-				  		<td><a href="/board/${board.category}/detail?bdIdx=${board.bdIdx}">${board.bdTitle}</a></td>
-				  		<td>${board.viewCount}</td>
-				  		<td>${board.recCount}</td>
-				  		<td>${board.regDate}</td>
-					  </tr>
+						  <tr>
+						  	<td><input type="checkbox" name="bdIdx" id="bdIdx" class="listCheckbox" value="${board.bdIdx}"></td>
+					  		<td>${board.bdIdx}</td>
+					  		<td><a href="/board/${board.category}/detail?bdIdx=${board.bdIdx}">${board.bdTitle}</a></td>
+					  		<td>${board.viewCount}</td>
+					  		<td>${board.recCount}</td>
+					  		<td>${board.regDate}</td>
+						  </tr>
 					  </c:forEach>
+					  
+					  <!-- 데이터 없을 때 -->
 					  <c:if test="${pageUtil.total == 0}">
-					  <tr>
-					  	<td colspan="6">작성된 글이 없습니다.</td>
-					  </tr>
+						<tr>
+							<td colspan="6">작성된 글이 없습니다.</td>
+						</tr>
 					  </c:if>
 				  </tbody>
 				</table>
@@ -74,24 +76,29 @@
 				<nav aria-label="Page navigation example">
 				  <ul class="pagination">
 				    <li class="page-item">
-				      <a class="page-link" aria-label="Previous"
-				      	onclick="prevBtn(${pageUtil.curPage})">
+				      <a class="page-link" aria-label="Previous" onclick="prevBtn(${pageUtil.curPage})">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
+				    <!-- 총 페이지 블록이 1일 때 -->
 				    <c:if test="${pageUtil.blockEnd eq 1}">
-				    	<li class="page-item"><a class="page-link" href="#">1</a></li>
+				    	<li class="page-item">
+				    		<a class="page-link" href="#">1</a>
+				    	</li>
 				    </c:if>
 				    
 				    <c:if test="${pageUtil.blockEnd > 1}">
 				    	<c:forEach var="i" begin="1" step="1" end="${pageUtil.blockEnd}">
-				    		<li class="page-item"><a class="page-link" 
-				    			onclick="pageBtn(this.text)"><c:out value="${i}"/></a></li>
+				    		<li class="page-item">
+				    			<a class="page-link" onclick="pageBtn(this.text)">
+				    				<c:out value="${i}"/>
+				    			</a>
+				    		</li>
 				    	</c:forEach>
 				    </c:if>
+				    
 				    <li class="page-item">
-				      <a class="page-link" aria-label="Next" 
-				      	onclick="nextBtn(${pageUtil.curPage}, ${pageUtil.blockEnd})">
+				      <a class="page-link" aria-label="Next" onclick="nextBtn(${pageUtil.curPage}, ${pageUtil.blockEnd})">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>
@@ -102,7 +109,9 @@
 			<!-- 검색 기능 -->
 			<form>
 				<div style="display:flex; justify-content:center;">
-					<input name="keyword" id="keyword" value="${searchSet.keyword}" style="width: 300px;" type="search" class="form-control" placeholder="Search..." aria-label="Search" required="required">
+					<input name="keyword" id="keyword" value="${searchSet.keyword}" 
+						style="width: 300px;" type="search" class="form-control" 
+						placeholder="Search..." aria-label="Search" required="required">
 					<button type="button" class="btn btn-primary" onclick="searchKeyword()">검색</button>
 				</div>
 			</form>
@@ -176,11 +185,11 @@
 	 			body: JSON.stringify(bdIdxArr),
 				headers:{
 					'Content-Type': 'application/json'
-				}
+					}
 		 }).then(res => {
-	    		alert('삭제되었습니다.');
-	    		location.replace('/mypage/managing-board');
-	    	})
+			 alert('삭제되었습니다.');
+			 location.replace('/mypage/managing-board');
+			 })
 		}
 	}
 	
@@ -212,8 +221,6 @@
 			})
 		})
 	})();
-	
-	
 </script>
 
 

@@ -26,8 +26,7 @@
 			<a href="/board/meet" class="bt">모임게시판</a> 
 			<a href="/board/consulting" class="bt">상담게시판</a>
 		</div>
-		<br>
-		<br>
+		<br><br>
 		<span style="float:right">
 			<select name="category" id="sortSelect" onchange="sortList()">
 		        <option value="reg_date">등록일순</option>
@@ -53,7 +52,9 @@
 					<tr>
 						<td>${totalCnt-bList.RNUM}</td>
 						<td class="tit">
-							<a href="/board/${dataMap.category}/detail?bdIdx=${bList.BD_IDX}">${bList.BD_TITLE}</a>
+							<a href="/board/${dataMap.category}/detail?bdIdx=${bList.BD_IDX}">
+								${bList.BD_TITLE}
+							</a>
 							<span style="margin-left: 5px">
 								<i class="fas fa-comment" style="margin-right: 5px"></i>
 							</span>
@@ -65,7 +66,6 @@
 						<td>${bList.VIEW_COUNT}</td>
 					</tr>
 				</c:forEach>
-	
 			</tbody>
 		</table>
 		
@@ -81,6 +81,7 @@
 		
 		<div class="paging">
 			<a class="bt" onclick="changePage(1)">첫 페이지</a>
+			
 			<a onclick="prevBtn(${pageUtil.curPage})" class="bt">이전 페이지</a>
 			
 			<c:if test="${pageUtil.blockEnd eq 1}">
@@ -93,7 +94,8 @@
 				</c:forEach>
 			</c:if>
 			
-			<a onclick="nextBtn( ${pageUtil.curPage}, ${pageUtil.blockEnd} )" class="bt">다음 페이지</a> 
+			<a onclick="nextBtn( ${pageUtil.curPage}, ${pageUtil.blockEnd} )" class="bt">다음 페이지</a>
+			 
 			<a onclick="changePage(${pageUtil.blockEnd})" class="bt">마지막 페이지</a>
 		</div>
 		<br>
@@ -114,16 +116,14 @@
 	<%@ include file="/WEB-INF/views/include/mainJs.jsp" %>
 	
 	<script type="text/javascript">
-
-	(() =>{
-		Array.prototype.forEach.call(document.querySelector("#search_option").options, e =>{
-			if(e.value == "${dataMap.option}") e.selected = true;
-		})
-		Array.prototype.forEach.call(document.querySelector("#sortSelect").options, e =>{
-			if(e.value == "${dataMap.sort}") e.selected = true;
-		})
-	})();
-
+		(() =>{
+			Array.prototype.forEach.call(document.querySelector("#search_option").options, e =>{
+				if(e.value == "${dataMap.option}") e.selected = true;
+			})
+			Array.prototype.forEach.call(document.querySelector("#sortSelect").options, e =>{
+				if(e.value == "${dataMap.sort}") e.selected = true;
+			})
+		})();
 
         const URLSearch = new URLSearchParams(location.search);
         
@@ -149,9 +149,6 @@
          	 const newParam = URLSearch.toString();
          	 location.href = location.pathname + '?' + newParam
       	
-            		
-           		
-        	
         }
         
        	let prevBtn = (page) => {
@@ -177,11 +174,11 @@
     		changePage(page);
     		
     	}
+    	
         let changePage = (page) =>{
-        	
-          		 URLSearch.set('page', String(page));
-             	 const newParam = URLSearch.toString();
-             	 location.href = location.pathname + '?' + newParam
+       		 URLSearch.set('page', String(page));
+           	 const newParam = URLSearch.toString();
+           	 location.href = location.pathname + '?' + newParam
           	 
         }
         
