@@ -32,9 +32,9 @@
 				<c:if test="${not empty authentication}">
 					<c:if test="${authentication.userIdx == board.userIdx}">
 						<a class="btn btn-danger float-end"
-					onclick="deleteBoard(${board.bdIdx} ,${board.userIdx })">삭제</a> <a
-					href="/board/${category}/modify?bdIdx=${board.bdIdx}"
-					class="btn btn-warning float-end" style="margin-right: 4px;">수정</a>
+						onclick="deleteBoard(${board.bdIdx} ,${board.userIdx })">삭제</a> <a
+						href="/board/${category}/modify?bdIdx=${board.bdIdx}"
+						class="btn btn-warning float-end" style="margin-right: 4px;">수정</a>
 
 					</c:if>
 				</c:if>
@@ -70,7 +70,8 @@
 					<dl>
 						<dt>${board.nickname}</dt>
 						<dd>
-							<span>|</span><span style="margin-left: 10px"><i
+							<span>|</span>
+							<span style="margin-left: 10px"><i
 								class="fas fa-comment" style="margin-right: 5px"></i>${commentCnt}</span><span
 								style="margin-left: 10px"><i class="fas fa-eye"
 								style="margin-right: 5px"></i>${board.viewCount } </span> <span
@@ -123,210 +124,173 @@
 							<!-- Newsfeed Content -->
 							<!--===================================================-->
 							<div class="media-block">
-
 								<div class="media-body">
-
 									<hr>
-
 									<!-- Comments -->
 									<div>
-										<c:forEach items="${pcomment}" var="comment">
-											<div class="media-block">
-
-												<div class="media-body originInput${comment.cmIdx }">
-
-													<div class="mar-btm">
-														<span
-															class="text-semibold text-success media-heading box-inline">${comment.nickname}</span>
-														<c:if test="${not empty authentication}">
-															<c:if
-																test="${authentication.userIdx == comment.userIdx }">
-																<div class="dropdown"
-																	style="display: inline-block; float: right;">
-																	<i class="fas fa-ellipsis-h dropdown-toggle"
-																		id="dropdownMenuButton1" data-bs-toggle="dropdown"
-																		aria-expanded="false"> </i>
-																	<ul class="dropdown-menu dropdown-menu-dark"
-																		aria-labelledby="dropdownMenuButton1">
-																		<li><a class="dropdown-item" href="#"
-																			onclick="updateComment(${comment.cmIdx})">수정</a></li>
-																		<li><a class="dropdown-item" onclick="deleteComment(${comment.cmIdx})">삭제</a></li>
-
-																	</ul>
-																</div>
-															</c:if>
+									<c:forEach items="${pcomment}" var="comment">
+										<div class="media-block">
+											<!-- 댓글 DIV -->
+											<div class="media-body originInput${comment.cmIdx }">
+												<div class="mar-btm">
+													<span class="text-semibold text-success media-heading box-inline">
+														${comment.nickname}
+													</span>
+													<!-- 로그인 여부 -->
+													<c:if test="${not empty authentication}">
+														<!-- 댓글 작성자 여부 -->
+														<c:if test="${authentication.userIdx == comment.userIdx }">
+															<div class="dropdown" style="display: inline-block; float: right;">
+																<i class="fas fa-ellipsis-h dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> </i>
+																<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+																	<li><a class="dropdown-item" href="#" onclick="updateComment(${comment.cmIdx})">수정</a></li>
+																	<li><a class="dropdown-item" onclick="deleteComment(${comment.cmIdx})">삭제</a></li>
+																</ul>
+															</div>
 														</c:if>
-
-														<p>${comment.cmContent}</p>
-														<div class="pad-ver">
-															<span class="text-muted text-sm"><fmt:formatDate
-																	pattern="yyyy-MM-dd hh:mm:ss"
-																	value="${comment.regDate}" /></span>
-
-															<c:if test="${not empty authentication}">
-																<button type="button" class="newBtn"
-																	onclick="addCommentBtn(${comment.cmIdx})">댓글달기</button>
-																<a
-																	class="btn btn-default btn-hover-success active"
-																	style="float: right"
-																	onclick="recommendComment(${comment.cmIdx})"> <i
-																	class="fa fa-thumbs-up mr-1"></i>${comment.cmRecCount}
-																</a>
-															</c:if>
-															<c:if test="${empty authentication}">
-																<span
-																	class="btn btn-default btn-hover-success active"
-																	style="float: right"> <i
-																	class="fa fa-thumbs-up mr-1"></i>${comment.cmRecCount}
-																</span>
-															</c:if>
-
-
-
-
-														</div>
-
-
-													</div>
-												</div>
-												<div class="media-body hiddenInput${comment.cmIdx }"
-													style="display: none">
-
-													<div class="mar-btm">
-														<span class="text-semibold">${authentication.nickName}</span>
-														<a type="button" class="btn-close" aria-label="Close"
-															onclick="cancelUpdate(${comment.cmIdx})"></a>
-													</div>
-
-													<div class="bt_wrap mt-1">
-														<input type="text" placeholder="댓글을 남겨주세요"
-															name="cmContent" id="cmContent" required
-															value="${comment.cmContent}"
-															style="width: 85%; height: 50px; font-size: 16px;">
-														<a class="on"
-															onclick="updateCommentBtn(this,${comment.cmIdx})">등록</a>
-													</div>
-
-
-
-												</div>
-												<hr>
-
-												<c:if test="${not empty authentication}">
-													<div id="input${comment.cmIdx}" style="display: none">
-														<div class="media-block" style="position: relative;">
-															<span style="position: absolute; top: 32px">ㄴ</span>
-															<div class="media-body" style="padding: 30px;">
-
-																<div class="mar-btm">
-																	<span class="text-semibold">${authentication.nickName}</span>
-
-																</div>
-
-																<div class="bt_wrap mt-1">
-																	<input type="text" placeholder="댓글을 남겨주세요"
-																		name="cmContent" id="cmContent" required
-																		style="width: 85%; height: 50px; font-size: 16px;">
-																	<a class="on"
-																		onclick="insertReComment(this,${board.bdIdx},${comment.cmIdx})">등록</a>
-																</div>
-
-
-
-															</div>
-															
-														</div>
-														<hr>
-													</div>
-												</c:if>
-
-												<c:forEach items="${chcomment}" var="chcomment">
-													<c:if test="${chcomment.prIdx == comment.cmIdx}">
-														<div class="media-block" style="position: relative;">
-															<span style="position: absolute;">ㄴ</span>
-															<div class="media-body originInput${chcomment.cmIdx }" style="padding: 0 30px;">
-
-																<div class="mar-btm">
-																	<span
-																		class="text-semibold text-success media-heading box-inline">${chcomment.nickname}</span>
-																	<c:if test="${not empty authentication}">
-																		<c:if
-																			test="${authentication.userIdx == chcomment.userIdx }">
-																			<div class="dropdown"
-																				style="display: inline-block; float: right;">
-																				<i class="fas fa-ellipsis-h dropdown-toggle"
-																					id="dropdownMenuButton1" data-bs-toggle="dropdown"
-																					aria-expanded="false"> </i>
-																				<ul class="dropdown-menu dropdown-menu-dark"
-																					aria-labelledby="dropdownMenuButton1">
-																					<li><a class="dropdown-item" href="#"
-																						onclick="updateCommentBtn(${chcomment.cmIdx})">수정</a></li>
-																					<li><a class="dropdown-item" onclick="deleteComment(${chcomment.cmIdx})">삭제</a></li>
-
-																				</ul>
-																			</div>
-																		</c:if>
-																	</c:if>
-																</div>
-																<p>${chcomment.cmContent}</p>
-																<div class="pad-ver">
-																	<span class="text-muted text-sm"><fmt:formatDate
-																			pattern="yyyy-MM-dd hh:mm:ss"
-																			value="${chcomment.regDate}" /></span>
-
-
-																	<c:if test="${not empty authentication}">
-																		<a
-																			class="btn btn-default btn-hover-success active"
-																			style="float: right"
-																			onclick="recommendComment(${chcomment.cmIdx})"> <i
-																			class="fa fa-thumbs-up mr-1"></i>${chcomment.cmRecCount}
-																		</a>
-																	</c:if>
-																	<c:if test="${empty authentication}">
-																		<span
-																			class="btn btn-default btn-hover-success active"
-																			style="float: right"> <i
-																			class="fa fa-thumbs-up mr-1"></i>${chcomment.cmRecCount}
-																		</span>
-																	</c:if>
-
-
-
-																</div>
-
-
-
-															</div>
-															<div class="media-body hiddenInput${chcomment.cmIdx }"
-																style="display: none;padding: 30px;">
-
-																<div class="mar-btm">
-																	<span class="text-semibold">${authentication.nickName}</span>
-																	<a type="button" class="btn-close" aria-label="Close"
-																		onclick="cancelUpdate(${chcomment.cmIdx})"></a>
-																</div>
-
-																<div class="bt_wrap mt-1">
-																	<input type="text" placeholder="댓글을 남겨주세요"
-																		name="cmContent" id="cmContent" required
-																		value="${chcomment.cmContent}"
-																		style="width: 85%; height: 50px; font-size: 16px;">
-																	<a class="on"
-																		onclick="updateComment(this,${chcomment.cmIdx})">등록</a>
-																</div>
-
-
-
-															</div>
-														</div>
-														<hr>
-
 													</c:if>
-												</c:forEach>
-										</c:forEach>
 
+													<p>${comment.cmContent}</p>
+													<div class="pad-ver">
+														<span class="text-muted text-sm">
+															<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${comment.regDate}" />
+														</span>
+														<!-- 대댓글 달기 버튼 -->
+														<c:if test="${not empty authentication}">
+															<button type="button" class="newBtn" onclick="addCommentBtn(${comment.cmIdx})">댓글달기</button>
+															<a class="btn btn-default btn-hover-success active" style="float: right" onclick="recommendComment(${comment.cmIdx})">
+																<i class="fa fa-thumbs-up mr-1"></i>
+																${comment.cmRecCount}
+															</a>
+														</c:if>
+														
+														<c:if test="${empty authentication}">
+															<span class="btn btn-default btn-hover-success active" style="float: right">
+																<i class="fa fa-thumbs-up mr-1"></i>
+																${comment.cmRecCount}
+															</span>
+														</c:if>
+													</div>
+												</div>
+											</div>
+											<!-- 댓글 수정 DIV -->
+											<div class="media-body hiddenInput${comment.cmIdx }" style="display: none">
+												<div class="mar-btm">
+													<span class="text-semibold">${authentication.nickName}</span>
+													<a type="button" class="btn-close" aria-label="Close" 
+														onclick="cancelUpdate(${comment.cmIdx})"></a>
+												</div>
+												<div class="bt_wrap mt-1">
+													<input type="text" placeholder="댓글을 남겨주세요"
+														name="cmContent" id="cmContent" required
+														value="${comment.cmContent}"
+														style="width: 85%; height: 50px; font-size: 16px;">
+													<a class="on" 
+														onclick="updateCommentBtn(this,${comment.cmIdx})">등록</a>
+												</div>
+											</div>
+											
+											<hr>
+											<!-- 대댓글달기 DIV -->
+											<c:if test="${not empty authentication}">
+												<div id="input${comment.cmIdx}" style="display: none">
+													<div class="media-block" style="position: relative;">
+														<span style="position: absolute; top: 32px">ㄴ</span>
+														<div class="media-body" style="padding: 30px;">
+															<div class="mar-btm">
+																<span class="text-semibold">${authentication.nickName}</span>
+															</div>
 
+															<div class="bt_wrap mt-1">
+																<input type="text" placeholder="댓글을 남겨주세요"
+																	name="cmContent" id="cmContent" required
+																	style="width: 85%; height: 50px; font-size: 16px;">
+																<a class="on"
+																	onclick="insertReComment(this,${board.bdIdx},${comment.cmIdx})">등록</a>
+															</div>
+														</div>
+													</div>
+													<hr>
+												</div>
+											</c:if>
+											
+											<!-- 대댓글표시 DIV -->
+											<c:forEach items="${chcomment}" var="chcomment">
+												<c:if test="${chcomment.prIdx == comment.cmIdx}">
+													<div class="media-block" style="position: relative;">
+														<span style="position: absolute;">ㄴ</span>
+														<div class="media-body originInput${chcomment.cmIdx }" style="padding: 0 30px;">
+															<div class="mar-btm">
+																<span class="text-semibold text-success media-heading box-inline">
+																	${chcomment.nickname}</span>
+																<c:if test="${not empty authentication}">
+																	<c:if test="${authentication.userIdx == chcomment.userIdx }">
+																		<div class="dropdown"
+																			style="display: inline-block; float: right;">
+																			<i class="fas fa-ellipsis-h dropdown-toggle"
+																				id="dropdownMenuButton1" data-bs-toggle="dropdown"
+																				aria-expanded="false"> </i>
+																			<ul class="dropdown-menu dropdown-menu-dark"
+																				aria-labelledby="dropdownMenuButton1">
+																				<li><a class="dropdown-item" href="#"
+																					onclick="updateCommentBtn(${chcomment.cmIdx})">
+																					수정</a></li>
+																				<li><a class="dropdown-item" 
+																					onclick="deleteComment(${chcomment.cmIdx})">
+																					삭제</a></li>
+																			</ul>
+																		</div>
+																	</c:if>
+																</c:if>
+															</div>
+															<p>${chcomment.cmContent}</p>
+															<div class="pad-ver">
+																<span class="text-muted text-sm"><fmt:formatDate
+																		pattern="yyyy-MM-dd hh:mm:ss"
+																		value="${chcomment.regDate}" /></span>
+																<!-- 대댓글 추천 -->
+																<c:if test="${not empty authentication}">
+																	<a class="btn btn-default btn-hover-success active"
+																		style="float: right"
+																		onclick="recommendComment(${chcomment.cmIdx})"> <i
+																		class="fa fa-thumbs-up mr-1"></i>${chcomment.cmRecCount}
+																	</a>
+																</c:if>
+																<c:if test="${empty authentication}">
+																	<span
+																		class="btn btn-default btn-hover-success active"
+																		style="float: right"> <i
+																		class="fa fa-thumbs-up mr-1"></i>${chcomment.cmRecCount}
+																	</span>
+																</c:if>
+															</div>
+														</div>
+														<!-- 대댓글 수정/취소 -->
+														<div class="media-body hiddenInput${chcomment.cmIdx }"
+															style="display: none;padding: 30px;">
+
+															<div class="mar-btm">
+																<span class="text-semibold">${authentication.nickName}</span>
+																<a type="button" class="btn-close" aria-label="Close"
+																	onclick="cancelUpdate(${chcomment.cmIdx})"></a>
+															</div>
+
+															<div class="bt_wrap mt-1">
+																<input type="text" placeholder="댓글을 남겨주세요"
+																	name="cmContent" id="cmContent" required
+																	value="${chcomment.cmContent}"
+																	style="width: 85%; height: 50px; font-size: 16px;">
+																<a class="on"
+																	onclick="updateComment(this,${chcomment.cmIdx})">등록</a>
+															</div>
+														</div>
+													</div>
+													<hr>
+
+												</c:if>
+											</c:forEach>
+										</div>
+									</c:forEach>
 									</div>
 								</div>
 							</div>
@@ -338,39 +302,40 @@
 
 		</div>
 	</div>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-		crossorigin="anonymous"></script>
+		crossorigin="anonymous">
+	</script>
+		
 	<script type="text/javascript">
-		 let insertComment = (obj, bdIdx) =>{
-			 var comment = obj.previousElementSibling.value
-			 comment.trim()
-			 if(comment == ''){
-					alert("게시글을 작성해주세요.")
-					return;
-			 }
-			 
-		 		<c:if test="${empty authentication}">
+		let insertComment = (obj, bdIdx) =>{
+	 		<c:if test="${empty authentication}">
 		 		alert("로그인이 필요합니다.")
 		 		obj.preventDefault();
-		 		
-		 		return;
-		 		</c:if>
-		 		
-		    	return fetch('/board/comment-form',{
-		 			method:"post",
-		 			body: JSON.stringify({cmContent : comment, bdIdx : bdIdx}),
-		 			 headers:{
-		 			    'Content-Type': 'application/json'
-		 			  }
-		    	}).then(res => {
-		    		alert('댓글 등록이 완료되었습니다.');
-		    		location.reload();
-		    	})
-		    		
-		 	
-		 	}
+	 			return;
+	 		</c:if>
+			
+			var comment = obj.previousElementSibling.value;
+			comment.trim();
+			
+			if(comment == ''){
+				alert("게시글을 작성해주세요.")
+				return;
+			}
+			
+			return fetch('/board/comment-form',{
+				method:"post",
+				body: JSON.stringify({cmContent : comment, bdIdx : bdIdx}),
+				 headers:{
+				    'Content-Type': 'application/json'
+				  }
+		  	}).then(res => {
+		  		alert('댓글 등록이 완료되었습니다.');
+		  		location.reload();
+		  	})
+		}
 		 
 		 let recommendBoard = (bdIdx) =>{
 		 		
@@ -395,8 +360,6 @@
 		    		
 		    		location.reload();
 		    	})
-		    		
-		 	
 		 	}
 		 
 		 let recommendComment = (cmIdx) =>{
@@ -422,12 +385,11 @@
 		    		
 		    		location.reload();
 		    	})
-		    		
-		 	
 		 	}
 		 
 		 let addCommentBtn = (idx) =>{
 			 var temp = document.querySelector('#input'+idx);
+			 
 			 if(temp.style.display == "none"){
 				 temp.style.display = ""
 			 }else{
@@ -436,26 +398,16 @@
 		 }
 		 
 		 let updateCommentBtn = (idx) =>{
-			 
-			
-			 document.querySelector('.originInput'+idx).style.display = "none"
-			
+			document.querySelector('.originInput'+idx).style.display = "none"
 			document.querySelector('.hiddenInput'+idx).style.display = ""
-			 
 		 }
 		 
 		 let cancelUpdate = (idx) =>{
-			 
-			
-			 document.querySelector('.originInput'+idx).style.display = ""
-			
+			document.querySelector('.originInput'+idx).style.display = ""
 			document.querySelector('.hiddenInput'+idx).style.display = "none"
-			 
 		 }
 		 
-		 
 		 let insertReComment = (obj, bdIdx, cmIdx) =>{
-		 		
 		    	return fetch('/board/comment-form',{
 		 			method:"post",
 		 			body: JSON.stringify({cmContent : obj.previousElementSibling.value, bdIdx : bdIdx, cmIdx : cmIdx, cmType: 1}),
@@ -466,12 +418,9 @@
 		    		alert('댓글 등록이 완료되었습니다.');
 		    		location.reload();
 		    	})
-		    		
-		 	
 		 	}
 		 
 		 let updateComment = (obj,cmIdx) =>{
-		 		
 		    	return fetch('/board/update-comment',{
 		 			method:"post",
 		 			body: JSON.stringify({cmContent : obj.previousElementSibling.value, cmIdx : cmIdx}),
@@ -521,10 +470,6 @@
 		    		
 		 	
 		 }
-		 
-		 
-		 
-		 
-		</script>
+	</script>
 </body>
 </html>

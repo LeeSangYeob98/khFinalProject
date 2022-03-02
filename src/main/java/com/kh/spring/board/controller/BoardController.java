@@ -371,8 +371,6 @@ public class BoardController {
 		}else {
 			return "bad";
 		}
-
-
 	}
 	
 	@PostMapping("recommend-comment")

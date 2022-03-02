@@ -21,79 +21,98 @@
   	</update>
   	
   	<select id="selectBoardCnt" resultType="int">
-  		select count(*) from board
+  		select count(*) 
+  		from board
   		where user_idx = #{userIdx} 
-  		and is_del = 0
-  		<if test="keyword != null">
-			and content like '%'||#{keyword}||'%'
-		</if>
+	  		and is_del = 0
+	  		<if test="keyword != null">
+				and content like '%'||#{keyword}||'%'
+			</if>
   	</select>
   	
   	<select id="selectBoard" resultType="Board">
   		select *
 		from (select BD_IDX, USER_IDX, BD_TITLE, REG_DATE, VIEW_COUNT, REC_COUNT, CONTENT, CATEGORY, NICKNAME, rownum rnum
-        from (select BD_IDX, USER_IDX, BD_TITLE, REG_DATE, VIEW_COUNT, REC_COUNT, CONTENT, CATEGORY, NICKNAME
-        from board 
-        where user_idx = #{searchSet.userIdx} 
-        and is_del = 0
-		<if test="searchSet.keyword != null">
-			and content like '%'||#{searchSet.keyword}||'%' 
-		</if>
-  		order by bd_idx desc)) 
+	        from (select BD_IDX, USER_IDX, BD_TITLE, REG_DATE, VIEW_COUNT, REC_COUNT, CONTENT, CATEGORY, NICKNAME
+		        from board 
+		        where user_idx = #{searchSet.userIdx} 
+			        and is_del = 0
+					<if test="searchSet.keyword != null">
+						and content like '%'||#{searchSet.keyword}||'%' 
+					</if>
+			  	order by bd_idx desc)) 
   		where rnum between ${((pageUtil.curPage-1) * pageUtil.cntPerPage) + 1} 
-  		and ${pageUtil.curPage * pageUtil.cntPerPage}
+  			and ${pageUtil.curPage * pageUtil.cntPerPage}
   	</select>
   	
   	<select id="selectBoardCommentCnt" resultType="int">
   		select count(*) from board_comment
   		where user_idx = #{userIdx} 
-  		and is_del = 0
-  		<if test="keyword != null">
-			and cm_content like '%'||#{keyword}||'%'
-		</if>
+	  		and is_del = 0
+	  		<if test="keyword != null">
+				and cm_content like '%'||#{keyword}||'%'
+			</if>
   	</select>
   	
   	<select id="selectCommentList" resultType="map">
 	    select * 
 	    from (select cm_idx, bd_idx, cm_content, reg_date, cm_rec_count, user_idx, nickname, category, rownum rnum
-		from (select c.cm_idx, c.bd_idx, c.cm_content, c.reg_date, c.cm_rec_count, c.user_idx, c.nickname, b.category, nvl(b.is_del, 1)
-		from board_comment c left join board b on(c.bd_idx = b.bd_idx)
-		where c.user_idx = #{searchSet.userIdx} 
-		and c.is_del = 0
-		and b.is_del = 0
-		<if test="searchSet.keyword != null">
-			and c.cm_content like '%'||#{searchSet.keyword}||'%'
-		</if>
-		order by c.cm_idx desc))
+			from (select c.cm_idx, c.bd_idx, c.cm_content, c.reg_date, c.cm_rec_count, c.user_idx, c.nickname, b.category, nvl(b.is_del, 1)
+				from board_comment c left join board b on(c.bd_idx = b.bd_idx)
+				where c.user_idx = #{searchSet.userIdx} 
+					and c.is_del = 0
+					and b.is_del = 0
+					<if test="searchSet.keyword != null">
+						and c.cm_content like '%'||#{searchSet.keyword}||'%'
+					</if>
+					order by c.cm_idx desc))
 		where rnum between ${((pageUtil.curPage-1) * pageUtil.cntPerPage) + 1} 
-	  	and ${pageUtil.curPage * pageUtil.cntPerPage}
+	  		and ${pageUtil.curPage * pageUtil.cntPerPage}
 	</select>
 	
 	<select id="selectPetList" resultType="map">
 		select *
 		from (select pet_age, user_idx, pet_idx, pet_name, species, reg_date, gender, fl_idx, origin_file_name, rename_file_name, save_path, rownum rnum
-		from (select p.pet_age, p.user_idx, p.pet_idx, p.pet_name, p.species, p.reg_date, p.gender, f.fl_idx, f.origin_file_name, f.rename_file_name, f.save_path
-		from pet p join file_info f on (p.pet_idx = f.type_idx)
-		where p.user_idx = #{userIdx} 
-		and p.is_del = 0
-		order by p.pet_idx desc))
+			from (select p.pet_age, p.user_idx, p.pet_idx, p.pet_name, p.species, p.reg_date, p.gender, f.fl_idx, f.origin_file_name, f.rename_file_name, f.save_path
+				from pet p join file_info f on (p.pet_idx = f.type_idx)
+					where p.user_idx = #{userIdx} 
+						and p.is_del = 0
+					order by p.pet_idx desc))
 		where rnum between ${((pageUtil.curPage-1) * pageUtil.cntPerPage) + 1} 
-	  	and ${pageUtil.curPage * pageUtil.cntPerPage}
+	  		and ${pageUtil.curPage * pageUtil.cntPerPage}
 	</select>
 	
 	<select id="selectVaccinationList" resultType="map">
 		select *
 		from vaccination_calendar vc join vaccine_info vi on(vc.vi_idx = vi.vi_idx)
-		join pet p on(vc.pet_idx = p.pet_idx)
+			join pet p on(vc.pet_idx = p.pet_idx)
 		where vc.user_idx = #{userIdx} and vc.is_del = 0
 	</select>
 	
 	<select id="selectVaccinationForBatch" resultType="map">
 		select vc.user_idx "user_idx", to_char(next_date, 'YYYY-MM-DD') "next_date", p.pet_name "pet_name", vi.vi_name "vi_name"
 		from vaccination_calendar vc join "USER" u on(vc.user_idx = u.user_idx)
-		join pet p on(vc.pet_idx = p.pet_idx)
-		join vaccine_info vi on(vc.vi_idx = vi.vi_idx)
+			join pet p on(vc.pet_idx = p.pet_idx)
+			join vaccine_info vi on(vc.vi_idx = vi.vi_idx)
 		where vc.is_del = 0
 	</select>
+	
+	<update id="updateBoardIsDel2">
+		update board 
+		set is_del = 1 
+		where
+		<foreach collection="bdIdxArr" item="bdIdx" open="(" close=")" separator="or">
+			bd_idx = #{bdIdx}
+		</foreach>
+	</update>
+	
+	<update id="updateCommentIsDel2">
+		update board_comment 
+		set is_del = 1 
+		where 
+		<foreach collection="cmIdxArr" item="cmIdx" open="(" close=")" separator="or">
+			cm_idx = #{cmIdx}
+		</foreach>
+	</update>
   	
   </mapper>

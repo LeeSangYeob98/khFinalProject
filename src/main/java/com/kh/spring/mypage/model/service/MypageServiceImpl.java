@@ -109,16 +109,18 @@ public class MypageServiceImpl implements MypageService {
 
 	public void updateBoardIsDel(List<Integer> bdIdxArr) {
 		
-		for (int bdIdx : bdIdxArr) {
-			mypageRepository.updateBoardIsDel(bdIdx);
-		}
+//		for (int bdIdx : bdIdxArr) {
+//			mypageRepository.updateBoardIsDel(bdIdx);
+//		}
+		mypageRepository.updateBoardIsDel2(bdIdxArr);
 	}
 
 	public void updateCommentIsDel(List<Integer> cmIdxArr) {
 
-		for (int cmIdx : cmIdxArr) {
-			mypageRepository.updateCommentIsDel(cmIdx);
-		}
+//		for (int cmIdx : cmIdxArr) {
+//			mypageRepository.updateCommentIsDel(cmIdx);
+//		}
+		mypageRepository.updateCommentIsDel2(cmIdxArr);
 	}
 	
 	

@@ -63,9 +63,13 @@ public interface MypageRepository {
 
 	List<Map<String, Object>> selectVaccinationForBatch();
 	
-	@Update("update board set is_del = 1 where bd_idx = #{bdIdx}")
-	void updateBoardIsDel(int bdIdx);
+//	@Update("update board set is_del = 1 where bd_idx = #{bdIdx}")
+//	void updateBoardIsDel(int bdIdx);
+//	
+//	@Update("update board_comment set is_del = 1 where cm_idx = #{cmIdx}")
+//	void updateCommentIsDel(int cmIdx);
+
+	void updateBoardIsDel2(List<Integer> bdIdxArr);
 	
-	@Update("update board_comment set is_del = 1 where cm_idx = #{cmIdx}")
-	void updateCommentIsDel(int cmIdx);
+	void updateCommentIsDel2(List<Integer> cmIdxArr);
 }

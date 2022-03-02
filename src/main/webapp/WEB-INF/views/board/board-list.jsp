@@ -125,16 +125,16 @@
 			})
 		})();
 
-        const URLSearch = new URLSearchParams(location.search);
+        const params = new URLSearchParams(location.search);
         
         let sortList = () =>{
         	var sortSelect = document.getElementById("sortSelect");  
         	var selectValue = sortSelect.options[sortSelect.selectedIndex].value; 
-     		 URLSearch.set('sort', String(selectValue));
-     		 URLSearch.set('page', String("1"));
-        	 const newParam = URLSearch.toString();
-        	 location.href = location.pathname + '?' + newParam
-     	 
+     		 params.set('sort', String(selectValue));
+     		 params.set('page', String("1"));
+        	 const newParam = params.toString();
+        	 //location.href = location.pathname + '?' + newParam
+        	 location.href = '?' + newParam;
    		}
         
         let searchKeyword = () =>{
@@ -144,9 +144,9 @@
         		alert("검색어를 입력해주세요.")
         		return
         	}
-        	 URLSearch.set("option", String(option));
-      		 URLSearch.set("keyword", String(keyword));
-         	 const newParam = URLSearch.toString();
+        	 params.set("option", String(option));
+      		 params.set("keyword", String(keyword));
+         	 const newParam = params.toString();
          	 location.href = location.pathname + '?' + newParam
       	
         }
@@ -158,9 +158,7 @@
     		}
     		
     		page--;
-
     		changePage(page);
-    		
     	}
     	
     	let nextBtn = (page, blockEnd) => {
@@ -170,22 +168,17 @@
     		}
     		
     		page++;
-    		
     		changePage(page);
-    		
     	}
     	
         let changePage = (page) =>{
-       		 URLSearch.set('page', String(page));
-           	 const newParam = URLSearch.toString();
+       		 params.set('page', String(page));
+           	 const newParam = params.toString();
            	 location.href = location.pathname + '?' + newParam
-          	 
         }
         
 	</script>
 </body>
-
-  
 
         
 </html>

@@ -8,9 +8,9 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="username" value="ADMIN"></property>
-		<property name="password" value="Finaldb123123"></property>
-		<property name="url" value="jdbc:oracle:thin:@finaldb_high?TNS_ADMIN=C:/CODE/Wallet_FinalDB"></property>
+		<property name="username" value="khfinal"></property>
+		<property name="password" value="1234"></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
 	</bean>
 	
@@ -19,29 +19,28 @@
 	 	<property name="configLocation" value="classpath:mybatis/config.xml"></property>
 	</bean>
 	
-	
-	
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
    		<constructor-arg index="0" ref="sqlSessionFactory" />
  	</bean>
  	
    <!-- 메일 발송 : JavaMailSenderImpl -->
    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="javaMailSenderImpl">
-			<property name="username" value="pclassTeam1@gmail.com"/>
-			<property name="password" value="123asd!@#"/>
-			<property name="host" value="smtp.gmail.com"/>
-			<property name="port" value="587"/>
-			<property name="javaMailProperties">
-				<props>
-					<prop key="mail.smtp.starttls.enable">true</prop>
-					<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
-					<prop key="mail.smtp.auth">true</prop>
-					<prop key="mail.debug">true</prop>				
-				</props>
-			</property>
+		<property name="username" value="pclassTeam1@gmail.com"/>
+		<property name="password" value="123asd!@#"/>
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.debug">true</prop>				
+			</props>
+		</property>
 	</bean>
    	 	
- 	<bean class="org.springframework.http.client.SimpleClientHttpRequestFactory" id="simpleClientHttpRequestFactory">
+ 	<bean class="org.springframework.http.client.SimpleClientHttpRequestFactory" 
+ 		id="simpleClientHttpRequestFactory">
  		<property name="connectTimeout" value="5000"/>
  		<property name="readTimeout" value="5000"/>
  	</bean>
@@ -51,7 +50,8 @@
  	</bean>
  	
  	<!-- 비밀번호 암호화 : DelegatingPasswordEncoder, PasswordEncoderFactories -->
- 	<bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" factory-method="createDelegatingPasswordEncoder"></bean>
+ 	<bean id="passwordEncoder" class="org.springframework.security.crypto.factory.PasswordEncoderFactories" 
+ 		factory-method="createDelegatingPasswordEncoder"></bean>
  	
  	<!-- 파일업로드 : CommonsMultipartResolver -->
  	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
@@ -59,7 +59,6 @@
  		<property name="maxInMemorySize" value="5242880"/>
  		<property name="maxUploadSize" value="5242880"/>
  	</bean>
- 
  	
  	<mybatis-spring:scan base-package="com.kh.spring" annotation="org.apache.ibatis.annotations.Mapper"/>
 	

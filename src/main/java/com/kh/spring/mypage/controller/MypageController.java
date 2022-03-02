@@ -115,8 +115,8 @@ public class MypageController {
 		
 		Paging pageUtil = Paging.builder()
 				.curPage(page)
-				.cntPerPage(8)
-				.blockCnt(10)
+				.cntPerPage(8) //페이지 당 출력할 게시물의 수
+				.blockCnt(10) //페이지 버튼 블록의 개수 EX) 이전 1 2 ... 9 10 다음
 				.total(mypageService.selectBoardCnt(searchSet))
 				.build();
 		

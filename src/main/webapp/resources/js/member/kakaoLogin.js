@@ -5,7 +5,7 @@ function kakaoLogin() {
                 Kakao.Auth.login({
                          scope : 'account_email',
                          success : function(e) {
-                            console.dir(e)
+                            //console.dir(e)
                             Kakao.API.request({
                                      url : '/v2/user/me',
                                      success : function(res) {
@@ -23,9 +23,11 @@ function kakaoLogin() {
 											}
 											
 										}).then(text => {
+											// 회원
 											if(text == 'kakaoLogin'){
 												console.dir('로그인성공');
 												location.href = '/';
+											// 비회원
 											}else if(text == 'kakaoJoin'){	
 												console.dir('가입하러가기');					
 												location.href = '/member/kakaoJoin?userId='+res.id;		
@@ -33,7 +35,6 @@ function kakaoLogin() {
 										}).catch(error => {
 											alert(error + '응답에 실패하였습니다.');
 										})
-										
 	                                        
                                      },fail : function(error) {
                                         alert('login success, but failed to request user information: '
@@ -42,13 +43,11 @@ function kakaoLogin() {
                                   })
                          },fail : function(error) {
                             console.dir(error)
-                         },
-
+                         }
                       })
-
              },fail : function(err) {
                 showResult(JSON.stringify(err))
-             },
+             }
           })
  }
 

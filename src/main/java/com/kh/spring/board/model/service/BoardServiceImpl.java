@@ -52,7 +52,8 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardComment> childComment = boardRepository.selectChildCommentByIdx(bdIdx);
 		List<BoardComment> parentComment = boardRepository.selectParentCommentByIdx(bdIdx);
 		
-		int commentCnt = boardRepository.selectCommentCntByIdx(bdIdx);
+		//int commentCnt = boardRepository.selectCommentCntByIdx(bdIdx);
+		int commentCnt = childComment.size() + parentComment.size(); //입출력 횟수 감소
 		return Map.of("board", board, "files", files, "pcomment", parentComment,"chcomment",childComment, "commentCnt", commentCnt);
 	}
 
@@ -102,20 +103,17 @@ public class BoardServiceImpl implements BoardService {
 	
 	public boolean insertRecommendBoard(int bdIdx, int userIdx) {
 		if(boardRepository.selectLikeByIdxs(bdIdx, userIdx).isEmpty()) {
-			
 			if(!boardRepository.updateBoardRecommend(bdIdx) || !boardRepository.insertLikeBoard(bdIdx, userIdx)) {
 				return false;
 			}else {
 				return true;
 			}
-			
 		}else {
 			if(!boardRepository.deleteBoardRecommend(bdIdx) || !boardRepository.deleteLikeBoard(bdIdx, userIdx)) {
 				return true;
 			}
 		}
 		return false;
-		
 	}
 	
 	@Override

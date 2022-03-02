@@ -2,17 +2,17 @@ var code = "";
 
 $("#mail_auth_bnt").click(function(){
 	var email = $("#email").val();
-	var cehckBox = $("#email_ck");  
+	var checkBox = $("#email_ck");  
 	var boxWrap = $(".mail_auth_ck");
 	
 	$.ajax({
-	        
+	         
 	        type:"GET",
 	        url:"mailCheck?email=" + email,
 	        success:function(data){
 	           
 	        	//console.log("data : " + data);	//이거 확인 후에 안지우면 오류남..!
-	        	cehckBox.attr("disabled",false);
+	        	checkBox.attr("disabled",false);
 	        	boxWrap.attr("id", "mail_auth_input true");
 	        	code = data;
 	        	

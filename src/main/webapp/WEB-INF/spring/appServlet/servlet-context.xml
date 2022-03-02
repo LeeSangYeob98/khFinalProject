@@ -41,8 +41,7 @@
 	
 	<!-- 트랜잭션 관리 bean 등록 : DataSourceTransactionManager -->
 	<beans:bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-	id="transactionManager">
-	
+		id="transactionManager">
 		<beans:constructor-arg name="dataSource" ref="dataSource"/>
 	</beans:bean>
 	
@@ -58,7 +57,6 @@
 									   트랜잭션이 진행되는 동안 수정을 불가능하게 처리
 					* SERIALIZABLE : SELECT문이 사용되는 데이터에 LOCK을 걸어
 									트랜잭션이 진행되는 동안 수정 및 입력을 불가능하게 처리
-					
 					
 				rollback-for : 어떤 예외가 발생했을 때 rollback 할 지 결정
 				no-rollback-for : rollback하지 않을 예외를 지정
@@ -83,18 +81,12 @@
 		
 	</tx:advice>
 	
-	
 	<aop:config>
 		<aop:pointcut expression="execution(* com.kh.spring..*.*ServiceImpl.*(..))" id="txPointCut"/>
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
-		
 	</aop:config>
-	
-	
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<context:component-scan base-package="com.kh.spring" />
-	
-	
 	
 </beans:beans>
